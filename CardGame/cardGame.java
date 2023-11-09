@@ -5,7 +5,7 @@ import java.util.Scanner;
 public class cardGame {
     public static Integer playerNo;
     public static String textFile;
-
+    public static ArrayList<Cards> cardsArray = new ArrayList<Cards>();
     
     
     public static void queryUser(){
@@ -21,11 +21,7 @@ public class cardGame {
     //generates the decks 
     //Biggest problem with this is creating a different number of decks for every player - very hard :(, not dealing with this today
     public static void generateDecks() {
-        for (int i = 1; i == playerNo; i++){
-            String name = "PlayerDeck" + i;
-            public ArrayList<Cards> name = new ArrayList<Cards>();
-        }
-
+        
     }   
 
     public static void generateHands() {
