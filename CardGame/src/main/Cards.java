@@ -1,4 +1,5 @@
-package CardGame;
+package CardGame.src.main;
+
 public class Cards {
     Integer cardNumber;
     String currentDeck;
