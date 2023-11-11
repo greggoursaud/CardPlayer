@@ -1,6 +1,9 @@
 package CardGame.src.main;
 
 import java.io.*;
+import java.io.BufferedReader;
+import java.io.FileReader;
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Scanner;
 public class cardGame {
@@ -23,8 +26,6 @@ public class cardGame {
     return "Hello";
    }
 
-
-
     //generates the decks and Hands
     public static void generateDecksAndHands() {
         for(int i = 0; i < playerNo; i++){
@@ -36,5 +37,39 @@ public class cardGame {
             handArray.add(hand);
         }
     }   
+
+    // public static void createDecksFromTextFile(String filename) {
+    //     try {
+    //         BufferedReader reader = new BufferedReader(new FileReader(filename));
+    //         String line;
+    
+    //         ArrayList<String> cardValues = new ArrayList<>();
+    
+    //         while ((line = reader.readLine()) != null) {
+    //             cardValues.add(line);
+    //         }
+    //         reader.close();
+    
+    //         for (int i = 0; i < playerNo; i++) {
+    //             for (int j = i; j < cardValues.size(); j += playerNo) { //round-robin
+    //                 Cards card = new Cards(Integer.parseInt(cardValues.get(j))); //creating a new Card object for each card
+    //                 deckArray.get(i).deckCardArray.add(card);
+    //             }
+    
+    //             //verification
+    //             System.out.print("Deck " + i + " has cards: ");
+    //             for (Cards card : deckArray.get(i).deckCardArray) {
+    //                 System.out.print(card.cardNumber + " ");
+    //             }
+    //             System.out.println();
+    //         }
+    //     } catch (IOException e) {
+    //         e.printStackTrace();
+    //     }
+    // }
+    
+    
+    
+    
 }
  
