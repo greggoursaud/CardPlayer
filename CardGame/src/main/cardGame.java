@@ -23,15 +23,13 @@ public class cardGame {
     return "Hello";
    }
 
-
-
     //generates the decks and Hands
     public static void generateDecksAndHands() {
         for(int i = 0; i < playerNo; i++){
             Decks deck = new Decks();
             Hands hand = new Hands();
-            deck.deckName = "Deck" + i;
-            hand.handName = "Hand"+ i;
+            deck.deckName = "Deck" + i; // names the deck object for each player like deck1, deck2 etc.
+            hand.handName = "Hand"+ i; // names the hand object for each player like hand1, hand2 etc.
             deckArray.add(deck);
             handArray.add(hand);
         }
