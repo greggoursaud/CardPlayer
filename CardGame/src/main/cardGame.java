@@ -7,36 +7,38 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Scanner;
 public class cardGame {
-    public static Integer playerNo;
+    //public static Integer playerNo;
     public static String textFile;
     public static ArrayList<Decks> deckArray = new ArrayList<Decks>();
     public static ArrayList<Hands> handArray = new ArrayList<Hands>();
+    public static ArrayList<Players> playersArray = new ArrayList<Players>();
+
+    Players player = new Players();
     
-    public static void queryUser(){
-        Scanner input = new Scanner(System.in);
-        System.out.print("How many players will be playing this game");
-        playerNo = input.nextInt();
-        System.out.print("Please give the name of the text file to be used");
-        textFile = input.nextLine();
-        input.close();
-    
-   }
    //test created to make sure assertions are working correctly
    public String testTest(){
     return "Hello";
    }
 
-    //generates the decks and Hands
-    public static void generateDecksAndHands() {
+    //generates the decks and Hands   
+    public static void generateDecksAndHands(Integer playerNo) {
         for(int i = 0; i < playerNo; i++){
             Decks deck = new Decks();
             Hands hand = new Hands();
+            Players player = new Players();
             deck.deckName = "Deck" + i; // names the deck object for each player like deck1, deck2 etc.
             hand.handName = "Hand"+ i; // names the hand object for each player like hand1, hand2 etc.
+            player.playerName = "Player" + i;
             deckArray.add(deck);
             handArray.add(hand);
+            playersArray.add(player);
         }
     }   
+
+    public static void main(String[] args){    
+    // Do user input testing in here for now
+    }
+    
 
     // public static void createDecksFromTextFile(String filename) {
     //     try {
