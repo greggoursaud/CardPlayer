@@ -1,10 +1,8 @@
 package CardGame.src.main;
 
 import java.io.*;
-import java.io.BufferedReader;
-import java.io.FileReader;
-import java.io.IOException;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.Scanner;
 public class cardGame {
     //public static Integer playerNo;
@@ -37,41 +35,75 @@ public class cardGame {
 
     public static void main(String[] args){    
     // Do user input testing in here for now
+    shuffleFileContent("CardGame/src/packs/four.txt");
+    createDecksFromTextFile("CardGame/src/packs/four.txt", 4);
+    }
+
+    public static void shuffleFileContent(String filename) {
+    try {
+        BufferedReader reader = new BufferedReader(new FileReader(filename));
+        ArrayList<String> lines = new ArrayList<>();
+
+        String line;
+        while ((line = reader.readLine()) != null) {
+            lines.add(line);
+        }
+        reader.close();
+
+        //shuffle the lines
+        Collections.shuffle(lines);
+
+        //write shuffled content back to the file
+        BufferedWriter writer = new BufferedWriter(new FileWriter(filename));
+        for (String shuffledLine : lines) {
+            writer.write(shuffledLine);
+            writer.newLine();
+        }
+        writer.close();
+        
+        System.out.println("Input pack has been shuffled");
+    } catch (IOException e) {
+        e.printStackTrace();
+    }
     }
     
 
-    // public static void createDecksFromTextFile(String filename) {
-    //     try {
-    //         BufferedReader reader = new BufferedReader(new FileReader(filename));
-    //         String line;
+    public static void createDecksFromTextFile(String filename, int playerNo) {
+        try {
+            BufferedReader reader = new BufferedReader(new FileReader(filename));
+            String line;
+            ArrayList<String> cardValues = new ArrayList<>();
     
-    //         ArrayList<String> cardValues = new ArrayList<>();
+            while ((line = reader.readLine()) != null) {
+                cardValues.add(line);
+            }
+            reader.close();
     
-    //         while ((line = reader.readLine()) != null) {
-    //             cardValues.add(line);
-    //         }
-    //         reader.close();
+            if (cardValues.isEmpty()) {
+                System.out.println("No card values in the file. Please ensure the file is not empty.");
+            } else {
+                generateDecksAndHands(playerNo); //generate decks and hands based on the player count
     
-    //         for (int i = 0; i < playerNo; i++) {
-    //             for (int j = i; j < cardValues.size(); j += playerNo) { //round-robin
-    //                 Cards card = new Cards(Integer.parseInt(cardValues.get(j))); //creating a new Card object for each card
-    //                 deckArray.get(i).deckCardArray.add(card);
-    //             }
+                for (int i = 0; i < playerNo; i++) {
+                    for (int j = i; j < cardValues.size(); j += playerNo) { //round-robin
+                        Cards card = new Cards(Integer.parseInt(cardValues.get(j)));
+                        deckArray.get(i).deckCardArray.add(card);
+                    }
     
-    //             //verification
-    //             System.out.print("Deck " + i + " has cards: ");
-    //             for (Cards card : deckArray.get(i).deckCardArray) {
-    //                 System.out.print(card.cardNumber + " ");
-    //             }
-    //             System.out.println();
-    //         }
-    //     } catch (IOException e) {
-    //         e.printStackTrace();
-    //     }
-    // }
+                    System.out.print("Deck " + (i+1) + " has cards: ");
+                    for (Cards card : deckArray.get(i).deckCardArray) {
+                        System.out.print(card.cardNumber + " ");
+                    }
+                    System.out.println();
+                }
+            }
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+  
     
-    
+
     
     
 }
- 
