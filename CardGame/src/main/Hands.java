@@ -4,7 +4,7 @@ import java.util.ArrayList;
 
 public class Hands {
     public String handName;
-    public ArrayList<Cards> deckHandArray = new ArrayList<Cards>();
+    public ArrayList<Cards> handCardArray = new ArrayList<Cards>();
 
 
 
