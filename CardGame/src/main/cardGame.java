@@ -83,40 +83,55 @@ public class cardGame {
                 System.out.println("No card values in the file");
             } else {
                 generateDecksAndHands(playerNo); //generate decks and hands based on the player count
-    
-                int cardIndex = 0;
+                int y = 1;
                 
-                //distribute four cards to each player's hand as round-robin 
-                for (int i = 0; i < 4; i++) {
-                    for (int j = 0; j < playerNo; j++) {
-                        Cards card = new Cards(Integer.parseInt(cardValues.get(cardIndex)));
-                        handArray.get(j).deckHandArray.add(card);
-                        cardIndex++;
+                for (int x = 0; x <= cardValues.size() -1; x++){
+                    if(y == playerNo + 1){
+                       y = 1;  
                     }
-                }
-    
-                //distribute the rest to the decks as round-robin 
-                for (int i = cardIndex; i < cardValues.size(); i++) {
-                    Cards card = new Cards(Integer.parseInt(cardValues.get(i)));
-                    deckArray.get(i % playerNo).deckCardArray.add(card);
-                }
-    
-                //display hands and decks
-                for (int i = 0; i < playerNo; i++) {
-                    System.out.print("Player " + (i+1) + "'s hand: ");
-                    for (Cards card : handArray.get(i).deckHandArray) {
+                    //System.out.print(y);                  
+                    Cards cardz = new Cards(Integer.parseInt(cardValues.get(x)));
+                    if(handArray.get(playerNo - 1).handCardArray.size() != 4)
+                    {
+                        handArray.get(y - 1).handCardArray.add(cardz);
+                    }
+                    else{
+                        deckArray.get(y - 1).deckCardArray.add(cardz);
+                    }
+
+                    for (Cards card : handArray.get(y - 1).handCardArray) {
                         System.out.print(card.cardNumber + " ");
                     }
                     System.out.println();
+                   y++;
+
                 }
-                
-                System.out.print("\n");
+
+
+
+
+
+
+
+
+
                 for (int i = 0; i < playerNo; i++) {
-                    System.out.print("Deck " + (i+1) + " has cards: ");
-                    for (Cards card : deckArray.get(i).deckCardArray) {
-                        System.out.print(card.cardNumber + " ");
+                    for (int j = i; j < cardValues.size(); j += playerNo) { //round-robin
+                        Cards card = new Cards(Integer.parseInt(cardValues.get(j)));
+                        if(i <= 0){
+                            //handArray.get(i).handCardArray.add(card);
+                        }
+                        else{
+                            //deckArray.get(i).deckCardArray.add(card);
+                        }
                     }
-                    System.out.println();
+                    
+                    //System.out.print("Deck " + (i+1) + " has cards: ");
+                    //for (Cards card : handArray.get(i).handCardArray) {
+                    //    System.out.print(card.cardNumber + " ");
+                    //}
+                    //System.out.println("Now decks \n");
+                    
                 }
             }
         } catch (IOException e) {
