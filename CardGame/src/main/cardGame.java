@@ -35,8 +35,8 @@ public class cardGame {
 
     public static void main(String[] args){    
     // Do user input testing in here for now
-    shuffleFileContent("CardGame/src/packs/four.txt");
-    createDecksFromTextFile("CardGame/src/packs/four.txt", 4);
+    shuffleFileContent("CardGame/src/packs/4.txt"); //dont shuffle pack 6 ;)
+    createHandsAndDecksFromTextFile("CardGame/src/packs/4.txt", 4);
     }
 
     public static void shuffleFileContent(String filename) {
@@ -61,14 +61,14 @@ public class cardGame {
         }
         writer.close();
         
-        System.out.println("Input pack has been shuffled");
+        System.out.println("Input pack has been shuffled\n");
     } catch (IOException e) {
         e.printStackTrace();
     }
     }
     
 
-    public static void createDecksFromTextFile(String filename, int playerNo) {
+    public static void createHandsAndDecksFromTextFile(String filename, int playerNo) {
         try {
             BufferedReader reader = new BufferedReader(new FileReader(filename));
             String line;
@@ -80,7 +80,7 @@ public class cardGame {
             reader.close();
     
             if (cardValues.isEmpty()) {
-                System.out.println("No card values in the file. Please ensure the file is not empty.");
+                System.out.println("No card values in the file");
             } else {
                 generateDecksAndHands(playerNo); //generate decks and hands based on the player count
                 int y = 1;
@@ -138,6 +138,9 @@ public class cardGame {
             e.printStackTrace();
         }
     }
+    
+    
+    
   
     
 
