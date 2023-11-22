@@ -6,6 +6,10 @@ public class Hands {
     public String handName;
     public ArrayList<Cards> handCardArray = new ArrayList<Cards>();
 
+    public void passToDeck(){
+
+        
+    }
 
 
 }
