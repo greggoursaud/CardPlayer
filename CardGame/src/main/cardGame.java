@@ -35,8 +35,8 @@ public class cardGame {
 
     public static void main(String[] args){    
     // Do user input testing in here for now
-    shuffleFileContent("CardGame/src/packs/4.txt"); //dont shuffle pack 6 ;)
-    createHandsAndDecksFromTextFile("CardGame/src/packs/4.txt", 4);
+    shuffleFileContent("CardGame/src/packs/5.txt"); //dont shuffle pack 6 ;)
+    createHandsAndDecksFromTextFile("CardGame/src/packs/5.txt", 5);
     }
 
     public static void shuffleFileContent(String filename) {
@@ -99,10 +99,21 @@ public class cardGame {
                         deckArray.get(y - 1).deckCardArray.add(cardz);
                     }
 
-                    for (Cards card : handArray.get(y - 1).handCardArray) {
-                        System.out.print(card.cardNumber + " ");
-                    }
-                    System.out.println();
+                    /////////////////////////////////////////////////Used to see generation of cards and decks, leave for now/////////////////////////////////////////////////////
+                    // if(x < cardValues.size()/2){
+                    //     for (Cards card : handArray.get(y - 1).handCardArray) {
+                    //     System.out.print(card.cardNumber + " ");
+                    //     }
+                    //     System.out.println();
+                    // }
+                    // else{
+                    //     for (Cards card : deckArray.get(y - 1).deckCardArray) {
+                    //     System.out.print(card.cardNumber + " ");
+                    //     }
+                    //     System.out.println();
+
+                    // }
+                    //////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
                    y++;
 
                 }
@@ -113,26 +124,26 @@ public class cardGame {
 
 
 
+                //Greg's original code - can keep or delete idm
 
-
-                for (int i = 0; i < playerNo; i++) {
-                    for (int j = i; j < cardValues.size(); j += playerNo) { //round-robin
-                        Cards card = new Cards(Integer.parseInt(cardValues.get(j)));
-                        if(i <= 0){
-                            //handArray.get(i).handCardArray.add(card);
-                        }
-                        else{
-                            //deckArray.get(i).deckCardArray.add(card);
-                        }
-                    }
+                // for (int i = 0; i < playerNo; i++) {
+                //     for (int j = i; j < cardValues.size(); j += playerNo) { //round-robin
+                //         Cards card = new Cards(Integer.parseInt(cardValues.get(j)));
+                //         if(i <= 0){
+                //             //handArray.get(i).handCardArray.add(card);
+                //         }
+                //         else{
+                //             //deckArray.get(i).deckCardArray.add(card);
+                //         }
+                //     }
                     
-                    //System.out.print("Deck " + (i+1) + " has cards: ");
-                    //for (Cards card : handArray.get(i).handCardArray) {
-                    //    System.out.print(card.cardNumber + " ");
-                    //}
-                    //System.out.println("Now decks \n");
+                //     //System.out.print("Deck " + (i+1) + " has cards: ");
+                //     //for (Cards card : handArray.get(i).handCardArray) {
+                //     //    System.out.print(card.cardNumber + " ");
+                //     //}
+                //     //System.out.println("Now decks \n");
                     
-                }
+                // }
             }
         } catch (IOException e) {
             e.printStackTrace();
