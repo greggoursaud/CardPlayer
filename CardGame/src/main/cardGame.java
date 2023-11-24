@@ -24,8 +24,11 @@ public class cardGame {
             Decks deck = new Decks();
             Hands hand = new Hands();
             Players player = new Players();
-            deck.deckName = "Deck" + i; // names the deck object for each player like deck1, deck2 etc.
-            hand.handName = "Hand"+ i; // names the hand object for each player like hand1, hand2 etc.
+            //deck.deckName = "Deck" + i; // names the deck object for each player like deck1, deck2 etc.
+            //hand.handName = "Hand"+ i; // names the hand object for each player like hand1, hand2 etc.
+            deck.deckName = i;
+            hand.handName = i;
+
             player.playerName = "Player" + i;
             deckArray.add(deck);
             handArray.add(hand);
@@ -35,8 +38,38 @@ public class cardGame {
 
     public static void main(String[] args){    
     // Do user input testing in here for now
-    shuffleFileContent("CardGame/src/packs/5.txt"); //dont shuffle pack 6 ;)
-    createHandsAndDecksFromTextFile("CardGame/src/packs/5.txt", 5);
+    shuffleFileContent("CardGame/src/packs/4.txt"); //dont shuffle pack 6 ;)
+    createHandsAndDecksFromTextFile("CardGame/src/packs/4.txt", 4);
+
+    /////////////////////////////////////////////////////////////// Testing space ignore everything it's probably retarded lmao
+    for(Decks deck : deckArray){
+        for(Cards card : deck.deckCardArray){
+            System.out.print(card.cardNumber + " ");
+        }
+        System.out.println();
+    }
+ System.out.println("Before Move");
+    Decks deck = deckArray.get(0);
+    deck.passToHand();
+                       
+    for(Decks deckz : deckArray){
+        for(Cards card : deckz.deckCardArray){
+            System.out.print(card.cardNumber + " ");
+        }
+        System.out.println();
+    } 
+    System.out.println("Deck after move");
+    System.out.println();
+    for(Hands hand : handArray){
+        for(Cards card : hand.handCardArray){
+            System.out.print(card.cardNumber + " ");
+        }
+        System.out.println();
+    } 
+
+
+
+    /////////////////////////////////////////////////////////////////////
     }
 
     public static void shuffleFileContent(String filename) {
@@ -91,13 +124,18 @@ public class cardGame {
                     }
                     //System.out.print(y);                  
                     Cards cardz = new Cards(Integer.parseInt(cardValues.get(x)));
+
                     if(handArray.get(playerNo - 1).handCardArray.size() != 4)
                     {
+                        cardz.heirarchy = handArray.get(y - 1).handCardArray.size() + 1;
                         handArray.get(y - 1).handCardArray.add(cardz);
+                        
                     }
                     else{
+                        cardz.heirarchy = deckArray.get(y - 1).deckCardArray.size() + 1;
                         deckArray.get(y - 1).deckCardArray.add(cardz);
                     }
+
 
                     /////////////////////////////////////////////////Used to see generation of cards and decks, leave for now/////////////////////////////////////////////////////
                     // if(x < cardValues.size()/2){

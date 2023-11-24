@@ -34,8 +34,5 @@ public class cardGameTest {
             cardGame.handArray.clear();
             cardGame.playersArray.clear();
         }
-       
-          
-       
     }
 }   
