@@ -35,4 +35,17 @@ public class cardGameTest {
             cardGame.playersArray.clear();
         }
     }
+    @Test
+    public void checkCardMovesHandToDeck(){ //This checks that cards will successfully move from hands to decks
+        cardGame.shuffleFileContent("CardGame/src/packs/4.txt");
+        cardGame.createHandsAndDecksFromTextFile("CardGame/src/packs/4.txt", 4);
+        Assert.assertEquals(cardGame.handArray.get(0).handCardArray.size(), 4);
+        cardGame.handArray.get(0).passToDeck();
+        Assert.assertEquals(cardGame.handArray.get(0).handCardArray.size(), 3);
+
+    }
+
+    public void checkCardMovesDeckToHand(){
+        
+    }
 }   

@@ -9,7 +9,7 @@ public class Cards {
 
     //default constructor class
     public Cards(){
-        return;
+        
     }
     //creates a cards object 
     public Cards(Integer cardNumber){
