@@ -12,6 +12,7 @@ public class Decks {
         for (Cards card : this.deckCardArray) { //finds the card at the bottom of the hierarchy
             if (card.heirarchy == 1){
                 tempCard = card;
+                //System.out.print("Found the card");
                
             }
         }

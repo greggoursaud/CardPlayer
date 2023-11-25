@@ -9,7 +9,7 @@ public class cardGameTest {
     }
 
     @Test
-    public void checkPlayerNumber(){         //Tests to make sure the number of hands created matches the number of players created for every possible player number
+    public void checkPlayerNumber(){//Tests to make sure the number of hands created matches the number of players created for every possible player number
         for(int i = 3; i < 9; i ++){
             cardGame.generateDecksAndHands(i); 
             Assert.assertEquals(i, cardGame.deckArray.size());
@@ -36,16 +36,27 @@ public class cardGameTest {
         }
     }
     @Test
-    public void checkCardMovesHandToDeck(){ //This checks that cards will successfully move from hands to decks
+    public void checkCardMovesHandToDeck(){ //This checks that cards will successfully move from hands to decks - this isnt working, for some reason a card is added to every single deck
         cardGame.shuffleFileContent("CardGame/src/packs/4.txt");
         cardGame.createHandsAndDecksFromTextFile("CardGame/src/packs/4.txt", 4);
         Assert.assertEquals(cardGame.handArray.get(0).handCardArray.size(), 4);
         cardGame.handArray.get(0).passToDeck();
         Assert.assertEquals(cardGame.handArray.get(0).handCardArray.size(), 3);
-
+        Assert.assertEquals(5, cardGame.deckArray.get(1).deckCardArray.size(), 5);
+        cardGame.deckArray.clear();
+        cardGame.handArray.clear();
+        cardGame.playersArray.clear();
     }
-
+    @Test
     public void checkCardMovesDeckToHand(){
-        
+        cardGame.shuffleFileContent("CardGame/src/packs/4.txt");
+        cardGame.createHandsAndDecksFromTextFile("CardGame/src/packs/4.txt", 4);
+        Assert.assertEquals(cardGame.handArray.get(0).handCardArray.size(), 4);
+        cardGame.deckArray.get(0).passToHand();
+        Assert.assertEquals(3, cardGame.deckArray.get(0).deckCardArray.size());
+        Assert.assertEquals(5, cardGame.handArray.get(0).handCardArray.size());
+        cardGame.deckArray.clear();
+        cardGame.handArray.clear();
+        cardGame.playersArray.clear();
     }
 }   

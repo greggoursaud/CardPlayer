@@ -18,12 +18,12 @@ public class Hands {
 
 
 
-        //pass random cards every time
+       
 
 
         this.handCardArray.remove(cardToDiscard); //removes the card 
 
-        //make sure to pass to the deck with a number one higher 
+        //make sure to pass to the deck with a number one higher - THERE is some error in this logic - must fix
         for(Decks deck : cardGame.deckArray){ //searches thru hands to find the one with a matching name to the current deck - e.g hand1 passes to deck1 and hand2 passes to deck2
             if(this.handName == cardGame.playersArray.size()){
                 cardGame.deckArray.get(0).deckCardArray.add(cardToDiscard);
