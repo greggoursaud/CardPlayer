@@ -4,31 +4,53 @@ import java.io.*;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Scanner;
+import java.util.concurrent.atomic.AtomicInteger;
+
 public class cardGame {
     //public static Integer playerNo;
     public static String textFile;
-    public static ArrayList<Decks> deckArray = new ArrayList<Decks>();
-    public static ArrayList<Hands> handArray = new ArrayList<Hands>();
-    public static ArrayList<Players> playersArray = new ArrayList<Players>();
+    private ArrayList<Decks> deckArray = new ArrayList<>();
+    private ArrayList<Hands> handArray = new ArrayList<>();
+    private ArrayList<Players> playersArray = new ArrayList<>();
+    public static AtomicInteger winningPlayer = new AtomicInteger(0);
 
-    Players player = new Players();
+    public ArrayList<Players> getPlayersArray() {
+        return playersArray;
+    }
+
+    public ArrayList<Decks> getDeckArray() {
+        return deckArray;
+    }
+
+    public ArrayList<Hands> getHandArray() {
+        return handArray;
+    }
+
+    public cardGame() {
+        // Create a new Players object and add it to the playersArray
+        Players player = new Players(this);
+        playersArray.add(player);
+    }
     
    //test created to make sure assertions are working correctly
    public String testTest(){
     return "Hello";
    }
-
-    //generates the decks and Hands   
-    public static void generateDecksAndHands(int playerNo) {
+ 
+    /**
+     * Generates decks and hands for the specified number of players.
+     * Creates a new player object for each player and constructs a new deck and hand object for each player.
+     * 
+     * @param playerNo The number of players in the game.
+     */
+    public void generateDecksAndHands(int playerNo) {
         for (int i = 0; i < playerNo; i++) {
-            Decks deck = new Decks(); // names the deck object for each player like deck1, deck2 etc.
-            Hands hand = new Hands(); // names the hand object for each player like hand1, hand2 etc.
+            Decks deck = new Decks();
+            Hands hand = new Hands();
             deck.setDeckName(i);
             hand.setHandName(i);
-            Players player = new Players(); 
-            // deck.deckName = "Deck" + i; 
-            // hand.handName = "Hand" + i; 
-            player.playerName = "Player" + i;
+            Players player = new Players(this);
+            player.setPlayerName("Player" + i);
             deckArray.add(deck);
             handArray.add(hand);
             playersArray.add(player);
@@ -40,9 +62,14 @@ public class cardGame {
 
 
     public static void main(String[] args){    
-    // Do user input testing in here for now
-    shuffleFileContent("CardGame/src/packs/4.txt"); 
-    createHandsAndDecksFromTextFile("CardGame/src/packs/4.txt", 4);
+        // Call the static method shuffleFileContent using the class name
+        cardGame.shuffleFileContent("CardGame/src/packs/4.txt"); 
+        
+        // Create a cardGame object
+        cardGame game = new cardGame();
+
+        // Call the instance method createHandsAndDecksFromTextFile
+        game.createHandsAndDecksFromTextFile("CardGame/src/packs/4.txt", 4);
     }
 
     public static void shuffleFileContent(String filename) {
@@ -74,7 +101,7 @@ public class cardGame {
     }
     
 
-    public static void createHandsAndDecksFromTextFile(String filename, int playerNo) {
+    public void createHandsAndDecksFromTextFile(String filename, int playerNo) {
         try {
             BufferedReader reader = new BufferedReader(new FileReader(filename));
             String line;
@@ -87,49 +114,44 @@ public class cardGame {
     
             if (cardValues.isEmpty()) {
                 System.out.println("No card values in the file");
-            } else {
-                generateDecksAndHands(playerNo); //generate decks and hands based on the player count
-                int y = 1;
-                
-                for (int x = 0; x <= cardValues.size() -1; x++){
-                    if(y == playerNo + 1){
-                       y = 1;  
-                    }
-                    //System.out.print(y);                  
-                    Cards cardz = new Cards(Integer.parseInt(cardValues.get(x)));
-                    if(handArray.get(playerNo - 1).handCardArray.size() != 4)
-                    {
-                        handArray.get(y - 1).handCardArray.add(cardz);
+                return;
+            } else if (cardValues.size() % playerNo != 0) {
+                System.out.println("Invalid pack. The number of card values must be a multiple of the number of players.");
+                return;
+            }
+    
+            generateDecksAndHands(playerNo); //generate decks and hands based on the player count
+            int y = 1;
+    
+            for (int x = 0; x <= cardValues.size() -1; x++){
+                if(y == playerNo + 1){
+                   y = 1;  
+                }
+                Cards cardz = new Cards(Integer.parseInt(cardValues.get(x)));
+                if(handArray.get(playerNo - 1).getHandCardArray().size() != 4)
+                {
+                    handArray.get(y - 1).getHandCardArray().add(cardz);
+                }
+                else{
+                    deckArray.get(y - 1).deckCardArray.add(cardz);
+                }
+    
+                for (Cards card : handArray.get(y - 1).getHandCardArray()) {
+                    System.out.print(card.getCardNumber() + " ");
+                }
+                System.out.println();
+               y++;
+            }
+    
+            for (int i = 0; i < playerNo; i++) {
+                for (int j = i; j < cardValues.size(); j += playerNo) { //round-robin
+                    Cards card = new Cards(Integer.parseInt(cardValues.get(j)));
+                    if(i <= 0){
+                        //handArray.get(i).handCardArray.add(card);
                     }
                     else{
-                        deckArray.get(y - 1).deckCardArray.add(cardz);
+                        //deckArray.get(i).deckCardArray.add(card);
                     }
-
-                    for (Cards card : handArray.get(y - 1).handCardArray) {
-                        System.out.print(card.cardNumber + " ");
-                    }
-                    System.out.println();
-                   y++;
-
-                }
-
-                for (int i = 0; i < playerNo; i++) {
-                    for (int j = i; j < cardValues.size(); j += playerNo) { //round-robin
-                        Cards card = new Cards(Integer.parseInt(cardValues.get(j)));
-                        if(i <= 0){
-                            //handArray.get(i).handCardArray.add(card);
-                        }
-                        else{
-                            //deckArray.get(i).deckCardArray.add(card);
-                        }
-                    }
-                    
-                    //System.out.print("Deck " + (i+1) + " has cards: ");
-                    //for (Cards card : handArray.get(i).handCardArray) {
-                    //    System.out.print(card.cardNumber + " ");
-                    //}
-                    //System.out.println("Now decks \n");
-                    
                 }
             }
         } catch (IOException e) {
@@ -137,17 +159,15 @@ public class cardGame {
         }
     }
 
-
     public void startGame() {
         for (Players player : playersArray) {
-            Thread thread = new Thread(new Runnable() {
-                @Override
-                public void run() {
-                    //player.play(); // Still need to create play()/run() method in the Players class
-                }
-            });
+            Thread thread = new Thread(player);
             thread.start();
         }
+    }
+
+    public void setWinner(Players winner) {
+        winningPlayer.set(winner.getPlayerNo());
     }
     
     
