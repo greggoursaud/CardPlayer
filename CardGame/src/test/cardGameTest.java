@@ -3,15 +3,24 @@ import org.junit.*;
 import CardGame.src.main.cardGame;
 import CardGame.src.main.Cards;
 public class cardGameTest {
+    
+    /**
+     * This method is a unit test that checks if the project compiles with no errors.
+     * It calls the `testTest()` method from the `cardGame` class and asserts that the returned value is "Hello".
+     */
     @Test
-    public void testTest(){ //checks the project compiles with no errors
-        //cardGame card = new cardGame();
+    public void testTest(){ 
         Assert.assertEquals("Hello", cardGame.testTest());
     }
 
+    /**
+     * This method tests to make sure the number of hands created matches the number of players created for every possible player number.
+     * It generates decks and hands for each player number, and then asserts that the size of the deckArray, handArray, and playersArray is equal to the player number.
+     * After each test, it clears the deckArray, handArray, and playersArray.
+     */
     @Test
-    public void checkPlayerNumber(){//Tests to make sure the number of hands created matches the number of players created for every possible player number
-        for(int i = 3; i < 9; i ++){  //dont know how its got like this probably with how im using cardgame in the players class but i need to create new instance for each test for it to work     
+    public void checkPlayerNumber(){
+        for(int i = 3; i < 9; i ++){  
             cardGame.generateDecksAndHands(i); 
             Assert.assertEquals(i, cardGame.deckArray.size());
             Assert.assertEquals(i, cardGame.handArray.size());
@@ -22,8 +31,13 @@ public class cardGameTest {
         }       
     }   
 
+    /**
+     * This method tests to make sure all hands hold 4 cards at the start of the game for every possible player number.
+     * It shuffles the content of a text file, creates hands and decks based on the file, and then checks
+     * that each hand contains 4 cards.
+     */
     @Test
-    public void checkAllHands(){  //Tests to make sure all hands hold 4 cards at the start of the game for every possible player number - apart from 6 for some reason :P
+    public void checkAllHands(){  
         for(int i = 3; i < 6; i++){
             String j = Integer.toString(i);
             cardGame.shuffleFileContent("CardGame/src/packs/"+ j +".txt"); 
@@ -37,8 +51,13 @@ public class cardGameTest {
         }
     }
 
+    /**
+     * This method tests to make sure all decks hold 4 cards at the start of the game for every possible player number.
+     * It shuffles the content of the text file, creates hands and decks from the text file,
+     * and then checks if each deck has 4 cards.
+     */
     @Test
-    public void checkAllDecks(){  //Tests to make sure all decks hold 4 cards at the start of the game for every possible player number - apart from 6 for some reason :P
+    public void checkAllDecks(){  
         for(int i = 3; i < 6; i++){
             String j = Integer.toString(i);
             cardGame.shuffleFileContent("CardGame/src/packs/"+ j +".txt"); 
@@ -53,8 +72,15 @@ public class cardGameTest {
     }
 
 
+    /**
+     * This method tests the functionality of moving cards from hands to decks.
+     * It shuffles the content of a text file, creates hands and decks from the shuffled file,
+     * and then checks if the cards are successfully moved from the hand to the deck.
+     * It asserts the expected sizes of the hand and deck arrays before and after the move.
+     * Finally, it clears the deck, hand, and player arrays.
+     */
     @Test
-    public void checkCardMovesHandToDeck(){ //This checks that cards will successfully move from hands to decks 
+    public void checkCardMovesHandToDeck(){ 
         cardGame.shuffleFileContent("CardGame/src/packs/4.txt");
         cardGame.createHandsAndDecksFromTextFile("CardGame/src/packs/4.txt", 4);
         Assert.assertEquals(cardGame.handArray.get(0).handCardArray.size(), 4);
@@ -66,8 +92,21 @@ public class cardGameTest {
         cardGame.playersArray.clear();
     }
 
+    /**
+     * This test method checks if the cards stored in the highest hand value are given to decks with the lowest value.
+     * It performs the following steps:
+     * 1. Shuffles the file content from "CardGame/src/packs/4.txt".
+     * 2. Creates hands and decks from the text file "CardGame/src/packs/4.txt" with 4 players.
+     * 3. Asserts that the hand at index 3 has 4 cards.
+     * 4. Prints the size of the deck at index 3.
+     * 5. Passes the cards from the hand at index 3 to the corresponding deck.
+     * 6. Prints the size of the deck at index 3 after passing the cards.
+     * 7. Asserts that the hand at index 3 has 3 cards.
+     * 8. Asserts that the deck at index 0 has 5 cards.
+     * 9. Clears the deckArray, handArray, and playersArray.
+     */
     @Test
-    public void checkCardsWrapAround(){ //This test will check that cards stored in the highest hand value will be given to decks with the lowest value 
+    public void checkCardsWrapAround(){ 
         cardGame.shuffleFileContent("CardGame/src/packs/4.txt");
         cardGame.createHandsAndDecksFromTextFile("CardGame/src/packs/4.txt", 4);
         Assert.assertEquals(cardGame.handArray.get(3).handCardArray.size(), 4);
@@ -79,10 +118,20 @@ public class cardGameTest {
         cardGame.deckArray.clear();
         cardGame.handArray.clear();
         cardGame.playersArray.clear();
-
     }
+    
+    /**
+     * This method tests the functionality of moving cards from the deck to the hand in the card game.
+     * It performs the following steps:
+     * 1. Shuffles the content of a text file containing card information.
+     * 2. Creates hands and decks based on the shuffled content.
+     * 3. Asserts that the initial hand size is 4.
+     * 4. Draws a card from the deck.
+     * 5. Asserts that the deck size is reduced by 1 and the hand size is increased by 1.
+     * 6. Clears the deck, hand, and player arrays.
+     */
     @Test
-    public void checkCardMovesDeckToHand(){//Checks cards can move successfully from a deck to a hand
+    public void checkCardMovesDeckToHand(){
         cardGame.shuffleFileContent("CardGame/src/packs/4.txt");
         cardGame.createHandsAndDecksFromTextFile("CardGame/src/packs/4.txt", 4);
         Assert.assertEquals(cardGame.handArray.get(0).handCardArray.size(), 4);
@@ -94,8 +143,13 @@ public class cardGameTest {
         cardGame.playersArray.clear();
     }
 
+    /**
+     * This test is to check that hands prioritize the cards with the correct card number.
+     * It generates decks and hands, adds cards to the hand with different card numbers,
+     * and then verifies that the hand chooses the card that doesn't have the same number as it.
+     */
     @Test
-    public void checkHandPrioritisesCards(){//This test is to check that hands prioritise the cards with the correct card number
+    public void checkHandPrioritisesCards(){
         cardGame.generateDecksAndHands(4);
         for(int i = 0; i < 4; i++){
             Cards card = new Cards();
@@ -108,7 +162,7 @@ public class cardGameTest {
           cardGame.handArray.get(1).handCardArray.add(card);
             System.out.print("Added card with number " + card.cardNumber);
         }
-        cardGame.handArray.get(1).passToDeck(); //The hand should choose the card that doens't have the same number as it
+        cardGame.handArray.get(1).passToDeck(); 
         for(int x = 0; x < cardGame.handArray.get(1).handCardArray.size() - 1; x++){            
             Assert.assertEquals(cardGame.handArray.get(1).handCardArray.get(x).cardNumber, Integer.valueOf(2));            
         }
