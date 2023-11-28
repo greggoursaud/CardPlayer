@@ -3,7 +3,7 @@ package CardGame.src.main;
 import java.util.ArrayList;
 
 public class Decks {
-    private int deckValue;
+    public int deckValue;
     public String deckName;
     public ArrayList<Cards> deckCardArray = new ArrayList<Cards>();
 
@@ -19,10 +19,6 @@ public class Decks {
     public Decks(Integer deckValue) {
         this.deckValue = deckValue;
         this.deckName = "Deck" + Integer.toString(deckValue);
-    }
-
-    public int getDeckValue() {
-        return deckValue;
     }
 
     public void setDeckName(Integer deckValue) {

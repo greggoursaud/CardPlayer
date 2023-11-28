@@ -3,9 +3,9 @@ package CardGame.src.main;
 import java.util.ArrayList;
 
 public class Hands {
-    private int handValue;
+    public int handValue;
     public String handName;
-    private ArrayList<Cards> handCardArray = new ArrayList<>();
+    public ArrayList<Cards> handCardArray = new ArrayList<>();
     private cardGame cardGame; // Add a reference to the CardGame object
 
     public Hands(cardGame cardGame) { // Modify the constructor to accept a CardGame object
@@ -14,14 +14,6 @@ public class Hands {
 
     public Hands() {
         // No initialization needed here
-    }
-
-    public int getHandValue() {
-        return handValue;
-    }
-
-    public ArrayList<Cards> getHandCardArray() {
-        return handCardArray;
     }
 
     public Hands(Integer handValue) {
@@ -75,7 +67,7 @@ public class Hands {
 
         // Select a card to discard.
         for (Cards card : handCardArray) {
-            if (card.getCardNumber() != handValue) { //ensures card does not equal the player number
+            if (card.cardNumber != handValue) { //ensures card does not equal the player number
                 cardToDiscard = card;
                 break;
             }
@@ -86,11 +78,11 @@ public class Hands {
             handCardArray.remove(cardToDiscard);
 
             // Add the card to the appropriate deck.
-            if (handValue == cardGame.getPlayersArray().size() - 1) {
-                cardGame.getDeckArray().get(0).addCard(cardToDiscard);
+            if (handValue == cardGame.playersArray.size() - 1) {
+                cardGame.deckArray.get(0).addCard(cardToDiscard);
             } else {
-                for (Decks deck : cardGame.getDeckArray()) {
-                    if (deck.getDeckValue() == handValue + 1) {
+                for (Decks deck : cardGame.deckArray) {
+                    if (deck.deckValue == handValue + 1) {
                         deck.addCard(cardToDiscard);
                         break;
                     }
@@ -124,9 +116,9 @@ public class Hands {
         if (handCardArray.size() != 4) {
             return false;
         }
-        int firstCardNumber = handCardArray.get(0).getCardNumber();
+        int firstCardNumber = handCardArray.get(0).cardNumber;
         for (Cards card : handCardArray) {
-            if (card.getCardNumber() != firstCardNumber) {
+            if (card.cardNumber != firstCardNumber) {
                 return false;
             }
         }

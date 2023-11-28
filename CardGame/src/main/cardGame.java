@@ -9,22 +9,10 @@ import java.util.concurrent.atomic.AtomicInteger;
 public class cardGame {
     //public static Integer playerNo;
     public static String textFile;
-    private ArrayList<Decks> deckArray = new ArrayList<>();
-    private ArrayList<Hands> handArray = new ArrayList<>();
-    private ArrayList<Players> playersArray = new ArrayList<>();
+    public ArrayList<Players> playersArray;
+    public ArrayList<Decks> deckArray;
+    public ArrayList<Hands> handArray;
     public static AtomicInteger winningPlayer = new AtomicInteger(0);
-
-    public ArrayList<Players> getPlayersArray() {
-        return playersArray;
-    }
-
-    public ArrayList<Decks> getDeckArray() {
-        return deckArray;
-    }
-
-    public ArrayList<Hands> getHandArray() {
-        return handArray;
-    }
     
    //test created to make sure assertions are working correctly
    public String testTest(){
@@ -44,7 +32,7 @@ public class cardGame {
             deck.setDeckName(i);
             hand.setHandName(i);
             Players player = new Players(this, hand, deck);
-            player.setPlayerName("Player" + i);
+            player.playerName = "Player" + i;    
             deckArray.add(deck);
             handArray.add(hand);
             playersArray.add(player);
@@ -136,16 +124,16 @@ public class cardGame {
                y = 1;  
             }
             Cards cardz = new Cards(Integer.parseInt(cardValues.get(x)));
-            if(handArray.get(playerNo - 1).getHandCardArray().size() != 4)
+            if(handArray.get(playerNo - 1).handCardArray.size() != 4)
             {
-                handArray.get(y - 1).getHandCardArray().add(cardz);
+                handArray.get(y - 1).handCardArray.add(cardz);
             }
             else{
                 deckArray.get(y - 1).deckCardArray.add(cardz);
             }
     
-            for (Cards card : handArray.get(y - 1).getHandCardArray()) {
-                System.out.print(card.getCardNumber() + " ");
+            for (Cards card : handArray.get(y - 1).handCardArray) {
+                System.out.print(card.cardNumber + " ");
             }
             System.out.println();
            y++;
@@ -172,7 +160,7 @@ public class cardGame {
     }
 
     public void setWinner(Players winner) {
-        winningPlayer.set(winner.getPlayerNo());
+        winningPlayer.set(winner.playerNo);
     }
     
     

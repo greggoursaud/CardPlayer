@@ -5,8 +5,8 @@ import java.util.Scanner;
 
 public class Players implements Runnable {
     String playerName;
-    private int playerNo;
-    private cardGame cardGame;
+    public int playerNo;
+    public cardGame cardGame;
     private Hands hand;
     private Decks deck;
 
@@ -15,11 +15,6 @@ public class Players implements Runnable {
         this.hand = hand;
         this.deck = deck;
     }
-
-    public void setPlayerName(String playerName) { //is this used anywhere?
-        this.playerName = playerName;
-    }
-
 
     //Will generate players  //not sure if this is needed now?
     public static void generatePlayers(Integer playerNo){       
@@ -44,9 +39,6 @@ public class Players implements Runnable {
         input.close();
     }
 
-    public int getPlayerNo() {
-        return playerNo;
-    }
 
     public void drawCard() {
         Cards card = deck.drawCard();
@@ -84,7 +76,7 @@ public class Players implements Runnable {
                         drawCard();
                         System.out.println(playerName + " drew a card.");
                         Cards card = hand.getLatestCard();
-                        if (card.getCardNumber() != playerNo) {
+                        if (card.cardNumber != playerNo) {
                             discardCard(card);
                             System.out.println(playerName + " discarded a card.");
                             cardGame.notifyAll();

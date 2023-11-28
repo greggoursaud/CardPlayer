@@ -10,14 +10,15 @@ public class cardGameTest {
 
     @Test
     public void checkPlayerNumber(){//Tests to make sure the number of hands created matches the number of players created for every possible player number
-        for(int i = 3; i < 9; i ++){
-            cardGame.generateDecksAndHands(i); 
-            Assert.assertEquals(i, cardGame.deckArray.size());
-            Assert.assertEquals(i, cardGame.handArray.size());
-            Assert.assertEquals(i, cardGame.playersArray.size());
-            cardGame.deckArray.clear();
-            cardGame.handArray.clear();
-            cardGame.playersArray.clear();
+        for(int i = 3; i < 9; i ++){  //dont know how its got like this probably with how im using cardgame in the players class but i need to create new instance for each test for it to work
+            cardGame card = new cardGame();
+            card.generateDecksAndHands(i); 
+            Assert.assertEquals(i, card.deckArray.size());
+            Assert.assertEquals(i, card.handArray.size());
+            Assert.assertEquals(i, card.playersArray.size());
+            card.deckArray.clear();
+            card.handArray.clear();
+            card.playersArray.clear();
         }       
     }   
 
