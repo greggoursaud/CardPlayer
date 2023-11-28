@@ -10,11 +10,10 @@ public class Players implements Runnable {
     private Hands hand;
     private Decks deck;
 
-    public Players(cardGame cardGame) {
+    public Players(cardGame cardGame, Hands hand, Decks deck) {
         this.cardGame = cardGame;
         this.hand = hand;
         this.deck = deck;
-        // initialize other fields...
     }
 
     public void setPlayerName(String playerName) { //is this used anywhere?
@@ -67,12 +66,14 @@ public class Players implements Runnable {
             while (cardGame.winningPlayer.get() == 0) {
                 synchronized (cardGame) {
                     if (hand.hasMatchingCards()) {
+                        System.out.println(playerName+ " has matching cards.");
                         cardGame.setWinner(this);
                         cardGame.notifyAll();
                         break;
                     }
 
                     if (deck.isDeckEmpty()) {
+                        System.out.println(playerName + "'s deck is empty.");
                         try {
                             cardGame.wait();
                         } catch (InterruptedException e) {
@@ -81,9 +82,11 @@ public class Players implements Runnable {
                         }
                     } else {
                         drawCard();
+                        System.out.println(playerName + " drew a card.");
                         Cards card = hand.getLatestCard();
                         if (card.getCardNumber() != playerNo) {
                             discardCard(card);
+                            System.out.println(playerName + " discarded a card.");
                             cardGame.notifyAll();
                         }
                     }
