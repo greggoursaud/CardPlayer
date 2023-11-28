@@ -9,13 +9,13 @@ import java.util.concurrent.atomic.AtomicInteger;
 public class cardGame {
     //public static Integer playerNo;
     public static String textFile;
-    public ArrayList<Players> playersArray;
-    public ArrayList<Decks> deckArray;
-    public ArrayList<Hands> handArray;
+    public static ArrayList<Players> playersArray = new ArrayList<Players>();
+    public static ArrayList<Decks> deckArray = new ArrayList<Decks>();
+    public static ArrayList<Hands> handArray = new ArrayList<Hands>();
     public static AtomicInteger winningPlayer = new AtomicInteger(0);
     
    //test created to make sure assertions are working correctly
-   public String testTest(){
+   public static String testTest(){
     return "Hello";
    }
  
@@ -25,13 +25,11 @@ public class cardGame {
      * 
      * @param playerNo The number of players in the game.
      */
-    public void generateDecksAndHands(int playerNo) {
+    public static void generateDecksAndHands(int playerNo) {
         for (int i = 0; i < playerNo; i++) {
-            Decks deck = new Decks();
-            Hands hand = new Hands();
-            deck.setDeckName(i);
-            hand.setHandName(i);
-            Players player = new Players(this, hand, deck);
+            Decks deck = new Decks(i);
+            Hands hand = new Hands(i);
+            Players player = new Players(hand, deck);
             player.playerName = "Player" + i;    
             deckArray.add(deck);
             handArray.add(hand);
@@ -45,14 +43,13 @@ public class cardGame {
 
     public static void main(String[] args){    
         // Call the static method shuffleFileContent using the class name
-        cardGame.shuffleFileContent("CardGame/src/packs/4.txt"); 
+        shuffleFileContent("CardGame/src/packs/4.txt"); 
         
-        // Create a cardGame object
-        cardGame game = new cardGame();
+       
 
         // Call the instance method createHandsAndDecksFromTextFile
-        game.createHandsAndDecksFromTextFile("CardGame/src/packs/4.txt", 4);
-        game.startGame();
+        createHandsAndDecksFromTextFile("CardGame/src/packs/4.txt", 4);
+        //game.startGame();
     }
 
     public static void shuffleFileContent(String filename) {
@@ -84,7 +81,7 @@ public class cardGame {
     }
     
 
-    public void createHandsAndDecksFromTextFile(String filename, int playerNo) {
+    public static void createHandsAndDecksFromTextFile(String filename, int playerNo) {
         Scanner scanner = new Scanner(System.in);
         ArrayList<String> cardValues = new ArrayList<>();
     

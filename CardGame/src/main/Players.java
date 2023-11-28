@@ -10,8 +10,7 @@ public class Players implements Runnable {
     private Hands hand;
     private Decks deck;
 
-    public Players(cardGame cardGame, Hands hand, Decks deck) {
-        this.cardGame = cardGame;
+    public Players( Hands hand, Decks deck) {   
         this.hand = hand;
         this.deck = deck;
     }
@@ -40,12 +39,12 @@ public class Players implements Runnable {
     }
 
 
-    public void drawCard() {
-        Cards card = deck.drawCard();
-        if (card != null) {
-            hand.addCard(card);
-        }
-    }
+    // public void drawCard() {
+    //     Cards card = deck.drawCard();
+    //     if (card != null) {
+    //         hand.addCard(card);
+    //     }
+    // }
 
     public void discardCard(Cards card) {
         hand.removeCard(card);
@@ -73,7 +72,7 @@ public class Players implements Runnable {
                             return; // End the thread if it's interrupted
                         }
                     } else {
-                        drawCard();
+                        //drawCard();
                         System.out.println(playerName + " drew a card.");
                         Cards card = hand.getLatestCard();
                         if (card.cardNumber != playerNo) {
