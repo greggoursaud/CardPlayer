@@ -14,8 +14,5 @@ public class Cards {
     public Cards(Integer cardNumber) {
         this.cardNumber = cardNumber;
     }
-
-    public void passCard(Integer passNo) {
-        // your code here
-    } 
+   
 }
