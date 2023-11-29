@@ -11,6 +11,12 @@ public class Players implements Runnable {
     public gameUpdates updater;
     public Players winner;
 
+    /**
+     * Constructs a Players object with the specified hand and deck.
+     * 
+     * @param hand the hand of cards for the player
+     * @param deck the deck of cards for the player
+     */
     public Players( Hands hand, Decks deck) {   
         this.playerHand = hand;
         this.playerDeck = deck;
@@ -42,19 +48,13 @@ public class Players implements Runnable {
     }
 
     /**
-     * Main execution point for each player in the game.
-     * 
-     * The method runs in a loop until a player wins. 
-     * Each iteration checks if the player's hand and deck have cards. 
-     * If they do, the player discards and draws a card respectively, and prints their hand.
-     * If not, the player waits for 100 milliseconds.
-     * 
-     * If a player's hand meets the win condition, the player is declared the winner, 
-     * the gameWon flag is set to true, and the current thread is interrupted.
-     * 
-     * If an InterruptedException is thrown, it prints the stack trace.
-     * 
-     * At the end, it notifies any threads waiting on this player's monitor.
+     * This method encapsulates the run() method of the Players class.
+     * It executes the core game logic for each player in the card game.
+     * The method is synchronized to prevent race conditions and ensure thread safety.
+     * It leverages the updater object to log player actions to a file.
+     * The method operates in a loop until a player fulfills the game's win condition.
+     * In each iteration, the player may perform one of two actions: draw a card from the deck or discard a card.
+     * If the player's hand satisfies the win condition, the game terminates and the player is declared the winner.
      */
     @Override
     public void run() {
@@ -97,9 +97,6 @@ public class Players implements Runnable {
 
                 if(this.playerHand.handCardArray.size() >= 4 && this.playerHand.checkWinCondition() == true){
                     System.out.print("Player "+ this.playerHand.handValue +"has won the Game ");
-                    setWinner(this);
-                    // fileInput = "Player " + this.playerHand.handValue + " has won the game";
-                    // updater.writePlayerAction("player" + this.playerHand.handValue, fileInput);
                     cardGame.gameWon = true;
                     Thread.currentThread().interrupt();    
                 }   
@@ -111,6 +108,12 @@ public class Players implements Runnable {
     end();
     }
 
+    /**
+     * This method is called when the game ends. It updates the game log with the final results and actions of the player.
+     * If the player's hand value matches the winning player's hand value, it writes that the player has won the game.
+     * Otherwise, it writes that the winning player has informed the current player about their victory.
+     * It also writes that the current player exits the game and logs their final hand and the contents of their deck.
+     */
     public void end(){
         String fileInput;
         
@@ -130,16 +133,6 @@ public class Players implements Runnable {
         updater.writePlayerAction("deck" + this.playerDeck.deckValue, fileInput);
 
     }
-
-    public void setWinner(Players winner) {
-        this.winner = winner;
-    }
-
-    public Players getWinner() {
-        return this.winner;
-    }
-
-
 
 }
 

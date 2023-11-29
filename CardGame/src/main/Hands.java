@@ -9,56 +9,75 @@ public class Hands {
     private final Object passLock = new Object();
     public gameUpdates updater;
     
+    /**
+     * Represents a collection of hands in a card game.
+     */
     public Hands() {
         // No initialization needed here
     }
 
+    /**
+     * Represents a hand in a card game.
+     * Each hand has a hand value and an associated game updater.
+     */
     public Hands(Integer handValue, gameUpdates updater) {
         this.handValue = handValue;
         this.handName = "Hand" + Integer.toString(handValue);   
         this.updater = updater;    
     }
 
+    /**
+     * Sets the name of the hand based on its value.
+     * 
+     * @param handValue the value of the hand
+     */
     public void setHandName(Integer handValue) {
         this.handValue = handValue;
         this.handName = "Hand" + Integer.toString(handValue);
     }
 
+    /**
+     * Passes a card from the player's hand to the corresponding deck.
+     * The card is chosen based on the condition that it does not equal the player number.
+     * The discarded card is removed from the player's hand and added to the deck.
+     * The player's action is recorded in a file.
+     * If the player's hand value is equal to the size of the hand array minus one, the card is added to the first deck in the deck array.
+     * Otherwise, the card is added to the deck with a matching value to the player's hand value plus one.
+     */
     public void passToDeck(){
         synchronized (passLock){
         Cards cardToDiscard = new Cards();
 
-        //create logic to only pass cards that don't have the player number in them 
         for(Cards card : this.handCardArray){
-            if (card.cardNumber != this.handValue){ //ensures card does not equal the player number
+            if (card.cardNumber != this.handValue){ // Ensures card does not equal the player number
                 cardToDiscard = card;
             }
         }
-        this.handCardArray.remove(cardToDiscard); //removes the card 
+        this.handCardArray.remove(cardToDiscard); // Removes the card 
         int cardNumber = cardToDiscard.cardNumber;       
         String fileInput = "Player " + (this.handValue + 1) + " discards a " + cardNumber + " to deck " + this.handValue;
         updater.writePlayerAction("player" + this.handValue, fileInput);
-        //make sure to pass to the deck with a number one higher - THERE is some error in this logic - must fix
-        // havent tested this yet but?
-        // The issue might be with the way you're checking if the current hand is the last one. You're comparing this.handValue with cardGame.playersArray.size(), 
-        //but handValue starts from 1 while array indices start from 0. So, if you have 4 players, the last player's handValue will be 4, but playersArray.size() 
-        //will also be 4, so the condition this.handValue == cardGame.playersArray.size() will be true for the last player, but it should be false.
-        for(Decks deck : cardGame.deckArray){ //searches through hands to find the one with a matching name to the current deck - e.g hand1 passes to deck1 and hand2 passes to deck2
+
+        for(Decks deck : cardGame.deckArray){ // Searches through hands to find the one with a matching name to the current deck - e.g hand1 passes to deck1 and hand2 passes to deck2
             if(this.handValue == cardGame.handArray.size() - 1){                                          
                 cardGame.deckArray.get(0).deckCardArray.add(cardToDiscard);
                 break;
             }
             else if(deck.deckValue == this.handValue + 1){
-                //Create logic to pass over card
                 deck.deckCardArray.add(cardToDiscard);               
             }
         }
         }
 
-        //make sure not to pass to a deck that doesn't exist(above playercount) 
+        //make sure not to pass to a deck that doesn't exist(above playercount) have we done this?
     }
 
-    public boolean checkHandHasCard(){ //checks if the hand this object contains has any available cards to take 
+    /**
+     * Checks if the hand has any cards.
+     * 
+     * @return true if the hand has cards, false otherwise.
+     */
+    public boolean checkHandHasCard(){ 
        if( this.handCardArray.size() == 0){
         System.out.println("No cards to take");
         return false;
@@ -66,7 +85,14 @@ public class Hands {
         return true;
     }
 
-    public Boolean checkWinCondition(){ // checks to see if the current hand object has achieved the win condition of 4 card objects with the same value
+    /**
+     * This method checks if the current hand satisfies the win condition of the game.
+     * It uses a flag to indicate whether the win condition is met. The flag is set to true 
+     * if the hand meets the winning criteria, and false otherwise.
+     * 
+     * @return A boolean flag - returns true if the hand meets the win condition, false if it does not.
+     */
+    public Boolean checkWinCondition(){ 
         boolean flag = true;
         Integer tempValue = this.handCardArray.get(0).cardNumber;
         for(Cards card : this.handCardArray){

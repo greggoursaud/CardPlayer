@@ -6,11 +6,20 @@ public class Cards {
     public String currentHand;
     public Integer heirarchy;
 
-    //default constructor class
+    
+    /**
+     * Represents a deck of cards.
+     */
     public Cards() {
+        
     }
 
-    //creates a cards object 
+
+    /**
+     * Constructs a new Cards object with the specified card number.
+     *
+     * @param cardNumber the number of the card
+     */
     public Cards(Integer cardNumber) {
         this.cardNumber = cardNumber;
     }
@@ -19,6 +28,11 @@ public class Cards {
         // your code here
     } 
 
+    /**
+     * Returns a string representation of the card.
+     *
+     * @return the string representation of the card
+     */
     @Override
     public String toString() {
         return String.valueOf(cardNumber);

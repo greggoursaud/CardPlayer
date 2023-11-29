@@ -154,7 +154,7 @@ public class cardGameTest {
      * and then verifies that the hand chooses the card that doesn't have the same number as it.
      */
     @Test
-    public void checkPlayerReferencesCorrectHandAndDeck(){ // checks that the player object references the corect hands and decks and that they hold the expected amount of cards 
+    public void checkPlayerReferencesCorrectHandAndDeck(){ // Checks that the player object references the corect hands and decks and that they hold the expected amount of cards 
         cardGame.shuffleFileContent("CardGame/src/packs/4.txt");
         cardGame.createHandsAndDecksFromTextFile("CardGame/src/packs/4.txt", 4);
         for(Players player : cardGame.playersArray){
@@ -202,8 +202,14 @@ public class cardGameTest {
     }   
 
 
+    /**
+     * This method tests the win condition in the hand object.
+     * It generates decks and hands, adds 4 cards with the same number to the first hand,
+     * and then checks if the win condition is recognized by the hand object.
+     * Finally, it clears the deck, hand, and player arrays.
+     */
     @Test
-    public void testWinCondition(){ //will test to make sure that upon getting 4 of the same cards the hand object will recognise the win condition has occured
+    public void testWinCondition(){ 
         cardGame.generateDecksAndHands(4);
         for(int i = 0; i < 4; i++){
             Cards card = new Cards();
@@ -217,6 +223,12 @@ public class cardGameTest {
 
     }
 
+    /**
+     * This method tests concurrent access to the Hands and Decks in the card game.
+     * It ensures that there are no errors when multiple threads access the Hands and Decks simultaneously.
+     *
+     * @throws InterruptedException if the thread is interrupted while waiting
+     */
     @Test
     public void testConcurrentAccessToHandsAndDecks() throws InterruptedException { // Will test to make sure that Hands and Decks will not throw any errors when being concurrently accessed
         Boolean exeption = false;
@@ -249,8 +261,12 @@ public class cardGameTest {
     cardGame.playersArray.clear();
     }
 
+    /**
+     * This method tests the functionality of the "checkDeckHasCard" method in the Decks class.
+     * It verifies whether the method correctly checks if the deck has a card and returns the expected result.
+     */
     @Test
-    public void checkDeckHasCardTest(){ //Tests to see if the method "checkDeckHas card" works and returns correctly
+    public void checkDeckHasCardTest(){ 
         Decks deck = new Decks(1);
         Cards card = new Cards(1);
         Assert.assertTrue(!deck.checkDeckHasCard());
@@ -259,8 +275,12 @@ public class cardGameTest {
         cardGame.deckArray.clear();
     }
 
+    /**
+     * This method tests if the threads have been initialised correctly in the card game.
+     * It checks if the correct amount of threads has been created and if all the created threads are running.
+     */
     @Test
-    public void testThreadsHaveBeenInitialisedCorrectly(){ //checks the correct amount of threads has been created and checks that all the created threads are running 
+    public void testThreadsHaveBeenInitialisedCorrectly(){ 
         cardGame.createHandsAndDecksFromTextFile("CardGame/src/packs/4.txt", 4);
         cardGame.startGame();
         Assert.assertEquals(cardGame.threadList.size(), 4);

@@ -30,18 +30,25 @@ public class gameUpdates {
         }
     }
 
-        public void prepareDirectory() {
-        try {
-            // Delete old output logs
-            Files.walk(Paths.get(""))
-                .filter(Files::isRegularFile)
-                .filter(path -> path.toString().endsWith("_output.txt"))
-                .map(Path::toFile)
-                .forEach(File::delete);
-        } catch (IOException e) {
-            System.out.println("An error occurred while preparing the directory: " + e.getMessage());
-        }
+    /**
+     * Deletes old output logs from the directory.
+     * This method walks through the directory, identifies regular files that end with "_output.txt",
+     * and deletes them.
+     *
+     * @throws IOException if an error occurs while preparing the directory
+     */
+    public void prepareDirectory() {
+    try {
+        // Delete old output logs
+        Files.walk(Paths.get(""))
+            .filter(Files::isRegularFile)
+            .filter(path -> path.toString().endsWith("_output.txt"))
+            .map(Path::toFile)
+            .forEach(File::delete);
+    } catch (IOException e) {
+        System.out.println("An error occurred while preparing the directory: " + e.getMessage());
     }
+}
 
 
 }

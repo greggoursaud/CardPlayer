@@ -7,7 +7,6 @@ import java.util.Scanner;
 import java.util.concurrent.atomic.AtomicInteger;
 
 public class cardGame {
-    //public static Integer playerNo;
     public static String textFile;
     public static ArrayList<Players> playersArray = new ArrayList<Players>();
     public static ArrayList<Decks> deckArray = new ArrayList<Decks>();
@@ -16,8 +15,12 @@ public class cardGame {
     public static volatile Boolean gameWon = false;
     public static ArrayList<Thread> threadList = new ArrayList<Thread>();
     public static volatile Integer winningPlayerNo;
-    
-   //test created to make sure assertions are working correctly
+
+    /**
+     * This method is a test method that returns a greeting message.
+     * 
+     * @return A string representing a greeting message.
+     */
    public static String testTest(){
     return "Hello";
    }
@@ -40,10 +43,6 @@ public class cardGame {
         }
     }
 
-
-
-
-
     public static void main(String[] args){    
         // Call the static method shuffleFileContent using the class name
         shuffleFileContent("CardGame/src/packs/4.txt"); 
@@ -54,6 +53,13 @@ public class cardGame {
 
     }
 
+
+    /**
+     * Shuffles the content of a file.
+     * Reads the content of the specified file, shuffles the lines, and writes the shuffled content back to the file.
+     *
+     * @param filename the name of the file to be shuffled
+     */
     public static void shuffleFileContent(String filename) {
     try {
         BufferedReader reader = new BufferedReader(new FileReader(filename));
@@ -65,10 +71,10 @@ public class cardGame {
         }
         reader.close();
 
-        //shuffle the lines
+        // Shuffle the lines
         Collections.shuffle(lines);
 
-        //write shuffled content back to the file
+        // Write shuffled content back to the file
         BufferedWriter writer = new BufferedWriter(new FileWriter(filename));
         for (String shuffledLine : lines) {
             writer.write(shuffledLine); 
@@ -83,6 +89,18 @@ public class cardGame {
     }
     
 
+    /**
+     * This method reads card values from a specified text file and initializes the game environment.
+     * It creates the necessary hands and decks for a card game based on the number of players.
+     *
+     * @param filename The path of the text file. This file should contain the card values, 
+     *                 each value representing a card. The method will read these values to 
+     *                 create the initial set of cards for the game.
+     *
+     * @param playerNo The number of players participating in the game. This parameter will 
+     *                 determine the number of hands that will be created. Each player will 
+     *                 be assigned one hand.
+     */
     public static void createHandsAndDecksFromTextFile(String filename, int playerNo) {
         Scanner scanner = new Scanner(System.in);
         ArrayList<String> cardValues = new ArrayList<>();
@@ -113,7 +131,7 @@ public class cardGame {
             // Clear the old card values
             cardValues.clear();
         }    
-        generateDecksAndHands(playerNo); //generate decks and hands based on the player count
+        generateDecksAndHands(playerNo); // Generate decks and hands based on the player count
         int y = 1;
     
         for (int x = 0; x <= cardValues.size() -1; x++){
@@ -132,6 +150,14 @@ public class cardGame {
         }
     }
 
+    /**
+     * Starts the card game.
+     * 
+     * This method initializes the gameUpdates object, prepares the directory, and starts a separate thread for each player in the playersArray.
+     * 
+     * @see gameUpdates
+     * @see Players
+     */
     public static void startGame() {
         gameUpdates updater = new gameUpdates();
         updater.prepareDirectory();
@@ -141,4 +167,5 @@ public class cardGame {
             threadList.add(thread);
         }
     }    
+
 }
