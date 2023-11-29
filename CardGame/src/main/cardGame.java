@@ -13,6 +13,8 @@ public class cardGame {
     public static ArrayList<Decks> deckArray = new ArrayList<Decks>();
     public static ArrayList<Hands> handArray = new ArrayList<Hands>();
     public static AtomicInteger winningPlayer = new AtomicInteger(0);
+    public static volatile Boolean gameWon = false;
+    public static ArrayList<Thread> threadList = new ArrayList<Thread>();
     
    //test created to make sure assertions are working correctly
    public static String testTest(){
@@ -49,7 +51,7 @@ public class cardGame {
 
         // Call the instance method createHandsAndDecksFromTextFile
         createHandsAndDecksFromTextFile("CardGame/src/packs/4.txt", 4);
-        //game.startGame();
+        startGame();
     }
 
     public static void shuffleFileContent(String filename) {
@@ -129,10 +131,10 @@ public class cardGame {
                 deckArray.get(y - 1).deckCardArray.add(cardz);
             }
     
-            for (Cards card : handArray.get(y - 1).handCardArray) {
-                System.out.print(card.cardNumber + " ");
-            }
-            System.out.println();
+            // for (Cards card : handArray.get(y - 1).handCardArray) {
+            //     System.out.print(card.cardNumber + " ");
+            // }
+            // System.out.println();
            y++;
         }
     
@@ -149,10 +151,11 @@ public class cardGame {
         }
     }
 
-    public void startGame() {
-        for (Players player : playersArray) {
-            Thread thread = new Thread(player);
+    public static void startGame() {
+        for (Players player : playersArray) {           
+            Thread thread = new Thread(player);            
             thread.start();
+            threadList.add(thread);
         }
     }
 

@@ -6,19 +6,15 @@ public class Decks {
     public int deckValue;
     public String deckName;
     public ArrayList<Cards> deckCardArray = new ArrayList<Cards>();
+    private final Object drawLock = new Object();
 
     public Decks() {
         // No initialization needed here
     }
 
-    /**
-     * Constructs a new Decks object with the specified deck value.
-     *
-     * @param deckValue the value of the deck
-     */
     public Decks(Integer deckValue) {
         this.deckValue = deckValue;
-        System.out.print("The value of the created deck is" + deckValue);
+        //System.out.print("The value of the created deck is" + deckValue);
         this.deckName = "Deck" + Integer.toString(deckValue);
     }
 
@@ -30,7 +26,8 @@ public class Decks {
         return deckCardArray.isEmpty();
     }
     
-    public void drawCard(){ // test this tommorow with dummy objects
+    public void drawCard(){ 
+        synchronized (drawLock){
         //Need to create a way to decrease the heirarchy of every other card whenever a card is passed
         Cards tempCard = new Cards();
         for (Cards card : this.deckCardArray) { //finds the card at the bottom of the hierarchy
@@ -51,21 +48,15 @@ public class Decks {
             }
         }
     }
-
-    // public synchronized Cards drawCard() {
-    //     if (!deckCardArray.isEmpty()) {
-    //         return deckCardArray.remove(deckCardArray.size() - 1);
-    //     } else {
-    //         return null;
-    //     }
-    // }
-
-    public synchronized void addCard(Cards card) {
-        deckCardArray.add(card);
     }
     
-
-
+    public boolean checkDeckHasCard(){ //checks if the deck this object contains has any available cards to take 
+        if( this.deckCardArray.size() == 0){
+         System.out.println("No cards to take");
+         return false;
+        }
+         return true;
+    }
 
 
 

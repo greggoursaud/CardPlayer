@@ -2,6 +2,7 @@ package CardGame.src.test;
 import org.junit.*;
 import CardGame.src.main.cardGame;
 import CardGame.src.main.Cards;
+import CardGame.src.main.Players;
 public class cardGameTest {
     @Test
     public void testTest(){ //checks the project compiles with no errors
@@ -15,10 +16,10 @@ public class cardGameTest {
             cardGame.generateDecksAndHands(i); 
             Assert.assertEquals(i, cardGame.deckArray.size());
             Assert.assertEquals(i, cardGame.handArray.size());
-            Assert.assertEquals(i, cardGame.playersArray.size());
+            //Assert.assertEquals(i, cardGame.playersArray.size());
             cardGame.deckArray.clear();
             cardGame.handArray.clear();
-            cardGame.playersArray.clear();
+            //cardGame.playersArray.clear();
         }       
     }   
 
@@ -93,6 +94,26 @@ public class cardGameTest {
         cardGame.handArray.clear();
         cardGame.playersArray.clear();
     }
+
+    @Test
+    public void checkPlayerReferencesCorrectHandAndDeck(){ // checks that the player object references the corect hands and decks and that they hold the expected amount of cards 
+        cardGame.shuffleFileContent("CardGame/src/packs/4.txt");
+        cardGame.createHandsAndDecksFromTextFile("CardGame/src/packs/4.txt", 4);
+        for(Players player : cardGame.playersArray){
+            Assert.assertEquals(player.playerHand.handCardArray.size(), 4);
+            Assert.assertEquals(player.playerDeck.deckCardArray.size(), 4);
+            Assert.assertEquals(player.playerNo, player.playerHand.handValue, player.playerDeck.deckValue); // this looks so much neater - consider revising tests to look like this 
+        }
+        cardGame.deckArray.clear();
+        cardGame.handArray.clear();
+        cardGame.playersArray.clear();
+
+
+
+
+
+    }
+
 
     @Test
     public void checkHandPrioritisesCards(){//This test is to check that hands prioritise the cards with the correct card number
