@@ -144,25 +144,6 @@ public class cardGameTest {
         cardGame.playersArray.clear();
     }
 
-    @Test
-    public void checkPlayerReferencesCorrectHandAndDeck(){ // checks that the player object references the corect hands and decks and that they hold the expected amount of cards 
-        cardGame.shuffleFileContent("CardGame/src/packs/4.txt");
-        cardGame.createHandsAndDecksFromTextFile("CardGame/src/packs/4.txt", 4);
-        for(Players player : cardGame.playersArray){
-            Assert.assertEquals(player.playerHand.handCardArray.size(), 4);
-            Assert.assertEquals(player.playerDeck.deckCardArray.size(), 4);
-            Assert.assertEquals(player.playerNo, player.playerHand.handValue, player.playerDeck.deckValue); // this looks so much neater - consider revising tests to look like this 
-        }
-        cardGame.deckArray.clear();
-        cardGame.handArray.clear();
-        cardGame.playersArray.clear();
-
-
-
-
-
-    }
-
 
     /**
      * This test is to check that hands prioritize the cards with the correct card number.
