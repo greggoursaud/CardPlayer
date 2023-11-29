@@ -40,12 +40,10 @@ public class Hands {
         for(Decks deck : cardGame.deckArray){ //searches through hands to find the one with a matching name to the current deck - e.g hand1 passes to deck1 and hand2 passes to deck2
             if(this.handValue == cardGame.handArray.size() - 1){                                          
                 cardGame.deckArray.get(0).deckCardArray.add(cardToDiscard);
-                System.out.print("Triggered");
                 break;
             }
             else if(deck.deckValue == this.handValue + 1){
                 //Create logic to pass over card
-                System.out.print("Not Triggered");
                 deck.deckCardArray.add(cardToDiscard);               
             }
         }
@@ -61,6 +59,7 @@ public class Hands {
        }
         return true;
     }
+
     public Boolean checkWinCondition(){ // checks to see if the current hand object has achieved the win condition of 4 card objects with the same value
         boolean flag = true;
         Integer tempValue = this.handCardArray.get(0).cardNumber;

@@ -37,79 +37,51 @@ public class Players implements Runnable {
         input.close();
     }
 
-    // private void stopAllThreads(){
-    //     for(Thread thread : cardGame.threadList){
-    //         thread.stop();
-    //     }
-    // }
-   
-
     @Override
     public void run() {
-        //try {
+        synchronized(this){ //Synchronise on each instance of Players
+        try {
             while (!cardGame.gameWon) {
-                if(this.playerHand.handCardArray.size() >= 4 && this.playerHand.checkWinCondition() == true){
-                    System.out.print("Player "+ this.playerHand.handValue +"has won the Game ");
-                    cardGame.gameWon = true;
-                    Thread.currentThread().interrupt();
-                    //cardGame.winningPlayer.add()
-                }else{
                 if(!cardGame.gameWon && this.playerHand.checkHandHasCard()){               
                     this.playerHand.passToDeck();
                     System.out.println("Player number " + this.playerHand.handValue +" has discarded a card, their hand looks like" );
                     for(Cards card : this.playerHand.handCardArray){
                         System.out.println(card.cardNumber);
                     }
-                }
+                }else{
+                    try{
+                            this.wait(30);
+                        }
+                        catch (InterruptedException e){
+                            e.printStackTrace();
+                        }
+                    }
                 if(!cardGame.gameWon && this.playerDeck.checkDeckHasCard()){
                     this.playerDeck.drawCard();
                     System.out.println("Player number " + this.playerHand.handValue +" has drawn a card, their hand looks like" );
                     for(Cards card : this.playerHand.handCardArray){
                         System.out.println(card.cardNumber);
+                    }                 
+                }else{
+                        try{
+                            this.wait(30);
+                        }
+                        catch (InterruptedException e){
+                            e.printStackTrace();
+                        }
                     }
+
+
+                if(this.playerHand.handCardArray.size() >= 4 && this.playerHand.checkWinCondition() == true){
+                    System.out.print("Player "+ this.playerHand.handValue +"has won the Game ");
+                    cardGame.gameWon = true;
+                    Thread.currentThread().interrupt();                   
                 }
             }
-            }
-            
-        
-        
-        
-        
-        //synchronized (cardGame) {
-        //             //if (hand.hasMatchingCards()) {
-        //                 System.out.println(playerName+ " has matching cards.");
-        //                 cardGame.setWinner(this);
-        //                 cardGame.notifyAll();
-        //                 break;
-        //             }
-
-        //             if (deck.isDeckEmpty()) {
-        //                 System.out.println(playerName + "'s deck is empty.");
-        //                 try {
-        //                     cardGame.wait();
-        //                 } catch (InterruptedException e) {
-        //                     Thread.currentThread().interrupt();
-        //                     return; // End the thread if it's interrupted
-        //                 }
-        //             } else {
-        //                 //drawCard();
-        //                 System.out.println(playerName + " drew a card.");
-        //                 Cards card = hand.getLatestCard();
-        //                 if (card.cardNumber != playerNo) {
-        //                     discardCard(card);
-        //                     System.out.println(playerName + " discarded a card.");
-        //                     cardGame.notifyAll();
-        //                 }
-        //             }
-        //         }
-        //     }
-        // } catch (Exception e) {
-        //     // Handle the exception
-        //     System.err.println("An error occurred: " + e.getMessage());
-        //     e.printStackTrace();
-        }
-    
-
+       }finally{
+        this.notify();
+       }
     }
-
+}
+}
 

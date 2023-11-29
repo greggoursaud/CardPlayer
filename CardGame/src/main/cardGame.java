@@ -130,24 +130,7 @@ public class cardGame {
             else{
                 deckArray.get(y - 1).deckCardArray.add(cardz);
             }
-    
-            // for (Cards card : handArray.get(y - 1).handCardArray) {
-            //     System.out.print(card.cardNumber + " ");
-            // }
-            // System.out.println();
            y++;
-        }
-    
-        for (int i = 0; i < playerNo; i++) {
-            for (int j = i; j < cardValues.size(); j += playerNo) { //round-robin
-                Cards card = new Cards(Integer.parseInt(cardValues.get(j)));
-                if(i <= 0){
-                    //handArray.get(i).handCardArray.add(card);
-                }
-                else{
-                    //deckArray.get(i).deckCardArray.add(card);
-                }
-            }
         }
     }
 
