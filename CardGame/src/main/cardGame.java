@@ -86,7 +86,6 @@ public class cardGame {
     public static void createHandsAndDecksFromTextFile(String filename, int playerNo) {
         Scanner scanner = new Scanner(System.in);
         ArrayList<String> cardValues = new ArrayList<>();
-    
         while (true) {
             try {
                 BufferedReader reader = new BufferedReader(new FileReader(filename));
@@ -113,8 +112,7 @@ public class cardGame {
     
             // Clear the old card values
             cardValues.clear();
-        }
-    
+        }    
         generateDecksAndHands(playerNo); //generate decks and hands based on the player count
         int y = 1;
     
@@ -142,16 +140,5 @@ public class cardGame {
             thread.start();
             threadList.add(thread);
         }
-    }
-
-    public void setWinner(Players winner) {
-        winningPlayer.set(winner.playerNo);
-    }
-    
-    
-  
-    
-
-    
-    
+    }    
 }

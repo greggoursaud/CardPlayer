@@ -1,7 +1,10 @@
 package CardGame.src.test;
 import org.junit.*;
+
 import CardGame.src.main.cardGame;
 import CardGame.src.main.Cards;
+import CardGame.src.main.Hands;
+import CardGame.src.main.Decks;
 import CardGame.src.main.Players;
 public class cardGameTest {
     
@@ -197,4 +200,72 @@ public class cardGameTest {
         cardGame.handArray.clear();
         cardGame.playersArray.clear();
     }   
+
+
+    @Test
+    public void testWinCondition(){ //will test to make sure that upon getting 4 of the same cards the hand object will recognise the win condition has occured
+        cardGame.generateDecksAndHands(4);
+        for(int i = 0; i < 4; i++){
+            Cards card = new Cards();
+            card.cardNumber = 2;
+            cardGame.handArray.get(0).handCardArray.add(card);            
+        }
+        Assert.assertTrue(cardGame.handArray.get(0).checkWinCondition());
+        cardGame.deckArray.clear();
+        cardGame.handArray.clear();
+        cardGame.playersArray.clear();
+
+    }
+
+    @Test
+    public void testConcurrentAccessToHandsAndDecks() throws InterruptedException { // Will test to make sure that Hands and Decks will not throw any errors when being concurrently accessed
+        Boolean exeption = false;
+        
+         // Create hands and decks
+       cardGame.createHandsAndDecksFromTextFile("CardGame/src/packs/4.txt", 4);
+
+       // Create threads corresponding to the number of players
+            for (Players player : cardGame.playersArray) {           
+                Thread thread = new Thread(player);            
+                thread.start();
+                cardGame.threadList.add(thread);
+            }       
+        try{
+        for (Players player: cardGame.playersArray) {           
+           for(int i = 0; i < 3; i++){
+            // Simulate concurrent access to the Hands and decks instance         
+                player.playerHand.passToDeck();
+                player.playerDeck.drawCard();
+           }           
+        }
+    }catch(Exception e){
+        exeption = true;
+    }
+        // Shutdown the executor and wait for termination
+        Assert.assertTrue(!exeption);
+    
+    cardGame.deckArray.clear();
+    cardGame.handArray.clear();
+    cardGame.playersArray.clear();
+    }
+
+    @Test
+    public void checkDeckHasCardTest(){ //Tests to see if the method "checkDeckHas card" works and returns correctly
+        Decks deck = new Decks(1);
+        Cards card = new Cards(1);
+        Assert.assertTrue(!deck.checkDeckHasCard());
+        deck.deckCardArray.add(card);
+        Assert.assertTrue(deck.checkDeckHasCard());
+        cardGame.deckArray.clear();
+    }
+
+    @Test
+    public void testThreadsHaveBeenInitialisedCorrectly(){ //checks the correct amount of threads has been created and checks that all the created threads are running 
+        cardGame.createHandsAndDecksFromTextFile("CardGame/src/packs/4.txt", 4);
+        cardGame.startGame();
+        Assert.assertEquals(cardGame.threadList.size(), 4);
+        for(Thread thread :cardGame.threadList){
+            Assert.assertTrue(thread.isAlive());
+        }
+    }
 }   
