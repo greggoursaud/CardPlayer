@@ -7,17 +7,20 @@ public class Hands {
     public String handName;
     public ArrayList<Cards> handCardArray = new ArrayList<>();
     private final Object passLock = new Object();
+    public gameUpdates updater;
     
     public Hands() {
         // No initialization needed here
     }
 
-    public Hands(Integer handValue) {
+    public Hands(Integer handValue, gameUpdates updater) {
         this.handValue = handValue;
-        this.handName = "Hand" + Integer.toString(handValue);       
+        this.handName = "Hand" + Integer.toString(handValue);   
+        this.updater = updater;    
     }
 
     public void setHandName(Integer handValue) {
+        this.handValue = handValue;
         this.handName = "Hand" + Integer.toString(handValue);
     }
 
@@ -32,6 +35,9 @@ public class Hands {
             }
         }
         this.handCardArray.remove(cardToDiscard); //removes the card 
+        int cardNumber = cardToDiscard.cardNumber;       
+        String fileInput = "Player " + (this.handValue + 1) + " discards a " + cardNumber + " to deck " + this.handValue;
+        updater.writePlayerAction("player" + this.handValue, fileInput);
         //make sure to pass to the deck with a number one higher - THERE is some error in this logic - must fix
         // havent tested this yet but?
         // The issue might be with the way you're checking if the current hand is the last one. You're comparing this.handValue with cardGame.playersArray.size(), 
@@ -67,6 +73,10 @@ public class Hands {
             if(card.cardNumber != tempValue){
                 flag = false;
             }
+        }
+
+        if(flag) {
+            cardGame.winningPlayerNo = this.handValue;
         }
         return flag;
     }

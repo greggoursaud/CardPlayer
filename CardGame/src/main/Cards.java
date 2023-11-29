@@ -18,4 +18,10 @@ public class Cards {
     public void passCard(Integer passNo) {
         // your code here
     } 
+
+    @Override
+    public String toString() {
+        return String.valueOf(cardNumber);
+    }
+    
 }

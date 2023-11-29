@@ -15,6 +15,7 @@ public class cardGame {
     public static AtomicInteger winningPlayer = new AtomicInteger(0);
     public static volatile Boolean gameWon = false;
     public static ArrayList<Thread> threadList = new ArrayList<Thread>();
+    public static volatile Integer winningPlayerNo;
     
    //test created to make sure assertions are working correctly
    public static String testTest(){
@@ -29,8 +30,8 @@ public class cardGame {
      */
     public static void generateDecksAndHands(int playerNo) {
         for (int i = 0; i < playerNo; i++) {
-            Decks deck = new Decks(i);
-            Hands hand = new Hands(i);
+            Decks deck = new Decks(i, new gameUpdates());
+            Hands hand = new Hands(i, new gameUpdates());
             Players player = new Players(hand, deck);
             player.playerName = "Player" + i;    
             deckArray.add(deck);
@@ -47,11 +48,10 @@ public class cardGame {
         // Call the static method shuffleFileContent using the class name
         shuffleFileContent("CardGame/src/packs/4.txt"); 
         
-       
-
         // Call the instance method createHandsAndDecksFromTextFile
         createHandsAndDecksFromTextFile("CardGame/src/packs/4.txt", 4);
         startGame();
+
     }
 
     public static void shuffleFileContent(String filename) {
@@ -135,6 +135,8 @@ public class cardGame {
     }
 
     public static void startGame() {
+        gameUpdates updater = new gameUpdates();
+        updater.prepareDirectory();
         for (Players player : playersArray) {           
             Thread thread = new Thread(player);            
             thread.start();
