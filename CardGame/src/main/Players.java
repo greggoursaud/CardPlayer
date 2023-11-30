@@ -64,11 +64,7 @@ public class Players implements Runnable {
             updater.writePlayerAction("player" + this.playerHand.handValue, fileInput);
             while (!cardGame.gameWon) {
                 if(!cardGame.gameWon && this.playerHand.checkHandHasCard()){               
-                    this.playerDeck.drawCard();
-                    System.out.println("Player number " + (this.playerHand.handValue + 1) +" has drawn a card, their hand looks like" );
-                    for(Cards card : this.playerHand.handCardArray){
-                        System.out.println(card.cardNumber);
-                    }
+                    this.playerDeck.drawCard();                   
                 }else{
                     try{
                             this.wait(100);
@@ -78,11 +74,7 @@ public class Players implements Runnable {
                         }
                     }
                 if(!cardGame.gameWon && this.playerDeck.checkDeckHasCard()){
-                    this.playerHand.passToDeck();
-                    System.out.println("Player number " + this.playerHand.handValue +" has discarded a card, their hand looks like" );
-                    for(Cards card : this.playerHand.handCardArray){
-                        System.out.println(card.cardNumber);
-                    }      
+                    this.playerHand.passToDeck();     
                 fileInput = "Player " + (this.playerHand.handValue + 1) + " current hand is: " + this.playerHand.handCardArray.toString();   
                 updater.writePlayerAction("player" + this.playerHand.handValue, fileInput);        
                 }else{

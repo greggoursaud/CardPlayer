@@ -17,6 +17,11 @@ public class Decks {
         // No initialization needed here
     }
 
+    public Decks(Integer deckValue) {
+        this.deckValue = deckValue;
+        this.deckName = "Deck" + Integer.toString(deckValue);
+    }
+
     /**
      * Constructs a Decks object with the specified deck value and game updater.
      *
@@ -56,7 +61,7 @@ public class Decks {
     public void drawCard(){ 
         synchronized (drawLock){
         Cards tempCard = new Cards();
-        for (Cards card : this.deckCardArray) { // Finds the card at the bottom of the hierarchy
+        for (Cards card : this.deckCardArray) { 
                 tempCard = card;
         }
         this.deckCardArray.remove(tempCard); // Removes the card from the deck
@@ -78,8 +83,7 @@ public class Decks {
      * @return true if the deck has cards, false otherwise.
      */
     public boolean checkDeckHasCard(){  
-        if( this.deckCardArray.size() == 0){
-         System.out.println("No cards to take");
+        if( this.deckCardArray.size() == 0){        
          return false;
         }
          return true;

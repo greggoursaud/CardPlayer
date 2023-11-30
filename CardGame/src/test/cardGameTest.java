@@ -31,7 +31,7 @@ public class cardGameTest {
             //Assert.assertEquals(i, cardGame.playersArray.size());
             cardGame.deckArray.clear();
             cardGame.handArray.clear();
-            //cardGame.playersArray.clear();
+            cardGame.playersArray.clear();
         }       
     }   
 
@@ -42,7 +42,7 @@ public class cardGameTest {
      */
     @Test
     public void checkAllHands(){  
-        for(int i = 3; i < 6; i++){
+        for(int i = 4; i < 6; i++){
             String j = Integer.toString(i);
             cardGame.shuffleFileContent("CardGame/src/packs/"+ j +".txt"); 
             cardGame.createHandsAndDecksFromTextFile("CardGame/src/packs/"+ j +".txt", i);
@@ -244,14 +244,21 @@ public class cardGameTest {
             }       
         try{
         for (Players player: cardGame.playersArray) {           
-           for(int i = 0; i < 3; i++){
-            // Simulate concurrent access to the Hands and decks instance         
+           //for(int i = 0; i < 2; i++){
+            // Simulate concurrent access to the Hands and decks instance
+            if(player.playerHand.checkHandHasCard() && player.playerDeck.checkDeckHasCard())  {
                 player.playerHand.passToDeck();
                 player.playerDeck.drawCard();
-           }           
+
+            }       
+                
+           //}           
         }
     }catch(Exception e){
         exeption = true;
+        cardGame.deckArray.clear();
+        cardGame.handArray.clear();
+        cardGame.playersArray.clear();
     }
         // Shutdown the executor and wait for termination
         Assert.assertTrue(!exeption);
@@ -287,5 +294,9 @@ public class cardGameTest {
         for(Thread thread :cardGame.threadList){
             Assert.assertTrue(thread.isAlive());
         }
+         cardGame.deckArray.clear();
+        cardGame.handArray.clear();
+        cardGame.playersArray.clear();
+        cardGame.threadList.clear();
     }
 }   

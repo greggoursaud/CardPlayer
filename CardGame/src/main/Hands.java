@@ -49,7 +49,7 @@ public class Hands {
         Cards cardToDiscard = new Cards();
 
         for(Cards card : this.handCardArray){
-            if (card.cardNumber != this.handValue){ // Ensures card does not equal the player number
+            if (card.cardNumber != this.handValue + 1){ // Ensures card does not equal the player number
                 cardToDiscard = card;
             }
         }
@@ -78,8 +78,7 @@ public class Hands {
      * @return true if the hand has cards, false otherwise.
      */
     public boolean checkHandHasCard(){ 
-       if( this.handCardArray.size() == 0){
-        System.out.println("No cards to take");
+       if( this.handCardArray.size() == 0){        
         return false;
        }
         return true;
