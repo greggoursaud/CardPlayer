@@ -3,6 +3,7 @@ package CardGame.src.main;
 import java.io.*;
 import java.util.ArrayList;
 import java.util.Collections;
+import java.util.InputMismatchException;
 import java.util.Scanner;
 import java.util.concurrent.atomic.AtomicInteger;
 
@@ -15,6 +16,7 @@ public class cardGame {
     public static volatile Boolean gameWon = false;
     public static ArrayList<Thread> threadList = new ArrayList<Thread>();
     public static volatile Integer winningPlayerNo;
+    public static int playerNo;
 
     /**
      * This method is a test method that returns a greeting message.
@@ -24,6 +26,21 @@ public class cardGame {
    public static String testTest(){
     return "Hello";
    }
+
+   public static int queryUser() {
+    Scanner input = new Scanner(System.in);
+    while (playerNo == 0) {
+        try {
+            System.out.print("How many players will be playing this game: ");
+            playerNo = input.nextInt();
+        } catch (InputMismatchException e) {
+            System.out.println("Invalid input. Please enter a valid number.");
+            input.next(); // Discard the invalid input
+        }
+    }
+    input.close();
+    return playerNo;
+}
  
     /**
      * Generates decks and hands for the specified number of players.
@@ -43,12 +60,13 @@ public class cardGame {
         }
     }
 
-    public static void main(String[] args){    
+    public static void main(String[] args){  
+        int playerNo = queryUser();
         // Call the static method shuffleFileContent using the class name
-        shuffleFileContent("CardGame/src/packs/4.txt"); 
-        
+        shuffleFileContent("CardGame/src/packs/" + playerNo + ".txt"); 
+
         // Call the instance method createHandsAndDecksFromTextFile
-        createHandsAndDecksFromTextFile("CardGame/src/packs/4.txt", 4);
+        createHandsAndDecksFromTextFile("CardGame/src/packs/" + playerNo + ".txt", playerNo);
         startGame();
 
     }
@@ -82,7 +100,6 @@ public class cardGame {
         }
         writer.close();
         
-        System.out.println("Input pack has been shuffled\n");
     } catch (IOException e) {
         e.printStackTrace();
     }

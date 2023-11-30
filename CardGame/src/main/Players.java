@@ -24,7 +24,11 @@ public class Players implements Runnable {
 
     }
 
-    //Will generate players  //not sure if this is needed now?
+    /**
+     * Generates players for the card game.
+     *
+     * @param playerNo the number of players to generate
+     */
     public static void generatePlayers(Integer playerNo){       
     }
 
@@ -41,7 +45,7 @@ public class Players implements Runnable {
                 playerNo = input.nextInt();
             } catch (InputMismatchException e) {
                 System.out.println("Invalid input. Please enter a valid number.");
-                input.next(); // discard the invalid input
+                input.next(); // Discard the invalid input
             }
         }
         input.close();
@@ -58,10 +62,10 @@ public class Players implements Runnable {
      */
     @Override
     public void run() {
-        synchronized(this){ //Synchronise on each instance of Players
+        synchronized(this){ // Synchronise on each instance of Players
         try {
             String fileInput = "Player " + (this.playerHand.handValue + 1) + " initial hand: " + this.playerHand.handCardArray.toString();
-            updater.writePlayerAction("player" + this.playerHand.handValue, fileInput);
+            updater.writePlayerAction("player" + (this.playerHand.handValue + 1), fileInput);
             while (!cardGame.gameWon) {
                 if(!cardGame.gameWon && this.playerHand.checkHandHasCard()){               
                     this.playerDeck.drawCard();                   
@@ -76,7 +80,7 @@ public class Players implements Runnable {
                 if(!cardGame.gameWon && this.playerDeck.checkDeckHasCard()){
                     this.playerHand.passToDeck();     
                 fileInput = "Player " + (this.playerHand.handValue + 1) + " current hand is: " + this.playerHand.handCardArray.toString();   
-                updater.writePlayerAction("player" + this.playerHand.handValue, fileInput);        
+                updater.writePlayerAction("player" + (this.playerHand.handValue + 1), fileInput);        
                 }else{
                         try{
                             this.wait(100);
@@ -88,7 +92,7 @@ public class Players implements Runnable {
 
 
                 if(this.playerHand.handCardArray.size() >= 4 && this.playerHand.checkWinCondition() == true){
-                    System.out.print("Player "+ this.playerHand.handValue +"has won the Game ");
+                    System.out.print("\nPlayer "+ (this.playerHand.handValue + 1) +" has won the Game ");
                     cardGame.gameWon = true;
                     Thread.currentThread().interrupt();    
                 }   
@@ -111,18 +115,18 @@ public class Players implements Runnable {
         
         if (cardGame.winningPlayerNo == this.playerHand.handValue) {
             fileInput = "Player " + (this.playerHand.handValue + 1) + " has won the game";
-            updater.writePlayerAction("player" + this.playerHand.handValue, fileInput);
+            updater.writePlayerAction("player" + (this.playerHand.handValue + 1), fileInput);
         } else {
             fileInput = "Player " + (cardGame.winningPlayerNo + 1) + " has informed Player " + (this.playerHand.handValue + 1) + " that Player " + (cardGame.winningPlayerNo + 1) + " has won";
-            updater.writePlayerAction("player" + this.playerHand.handValue, fileInput);
+            updater.writePlayerAction("player" + (this.playerHand.handValue + 1), fileInput);
         }
         String fileInputExit = "Player " + (this.playerHand.handValue + 1) + " exits";
-        updater.writePlayerAction("player" + this.playerHand.handValue, fileInputExit);
+        updater.writePlayerAction("player" + (this.playerHand.handValue + 1), fileInputExit);
         String fileInputFinalHand = "Player " + (this.playerHand.handValue + 1) + " final hand: " + this.playerHand.handCardArray.toString();
-        updater.writePlayerAction("player" + this.playerHand.handValue, fileInputFinalHand);
+        updater.writePlayerAction("player" + (this.playerHand.handValue + 1), fileInputFinalHand);
 
-        fileInput = "Deck " + this.playerDeck.deckValue + " contents: " + this.playerDeck.deckCardArray.toString(); 
-        updater.writePlayerAction("deck" + this.playerDeck.deckValue, fileInput);
+        fileInput = "Deck " + (this.playerDeck.deckValue + 1) + " contents: " + this.playerDeck.deckCardArray.toString(); 
+        updater.writePlayerAction("deck" + (this.playerDeck.deckValue + 1), fileInput);
 
     }
 

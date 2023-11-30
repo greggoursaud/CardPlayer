@@ -65,8 +65,8 @@ public class Decks {
                 tempCard = card;
         }
         this.deckCardArray.remove(tempCard); // Removes the card from the deck
-        String fileInput = "Player " + (this.deckValue + 1) + " draws a " + tempCard.cardNumber + " from deck " + this.deckValue;
-        updater.writePlayerAction("player" + this.deckValue, fileInput);
+        String fileInput = "Player " + (this.deckValue + 1) + " draws a " + tempCard.cardNumber + " from deck " + (this.deckValue + 1);
+        updater.writePlayerAction("player" + (this.deckValue + 1), fileInput);
 
        for(Hands hand : cardGame.handArray){ // Searches through hands to find the one with a matching name to the current deck - e.g hand1 passes to deck1 and hand2 passes to deck2
             if(hand.handValue == this.deckValue){

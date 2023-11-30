@@ -55,8 +55,15 @@ public class Hands {
         }
         this.handCardArray.remove(cardToDiscard); // Removes the card 
         int cardNumber = cardToDiscard.cardNumber;       
-        String fileInput = "Player " + (this.handValue + 1) + " discards a " + cardNumber + " to deck " + this.handValue;
-        updater.writePlayerAction("player" + this.handValue, fileInput);
+
+        int deckPassTo;
+        if (this.handValue + 1 == cardGame.playersArray.size()) {
+            deckPassTo = 1; // If the player is the last one, pass to deck 1
+        } else {
+            deckPassTo = this.handValue + 2; // Otherwise, pass to the next deck
+        }
+        String fileInput = "Player " + (this.handValue + 1) + " discards a " + cardNumber + " to deck " + deckPassTo;
+        updater.writePlayerAction("player" + (this.handValue + 1), fileInput);
 
         for(Decks deck : cardGame.deckArray){ // Searches through hands to find the one with a matching name to the current deck - e.g hand1 passes to deck1 and hand2 passes to deck2
             if(this.handValue == cardGame.handArray.size() - 1){                                          
@@ -67,9 +74,8 @@ public class Hands {
                 deck.deckCardArray.add(cardToDiscard);               
             }
         }
-        }
-
-        //make sure not to pass to a deck that doesn't exist(above playercount) have we done this?
+    
+    }
     }
 
     /**

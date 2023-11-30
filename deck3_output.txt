@@ -1,1 +1,1 @@
-Deck 3 contents: [7, 4]
+Deck 3 contents: []
