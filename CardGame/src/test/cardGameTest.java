@@ -1,5 +1,7 @@
 package CardGame.src.test;
 import org.junit.*;
+import java.time.Duration;
+import org.junit.jupiter.api.Timeout;
 
 import CardGame.src.main.cardGame;
 import CardGame.src.main.Cards;
@@ -230,7 +232,8 @@ public class cardGameTest {
      * @throws InterruptedException if the thread is interrupted while waiting
      */
     @Test
-    public void testConcurrentAccessToHandsAndDecks() throws InterruptedException { // Will test to make sure that Hands and Decks will not throw any errors when being concurrently accessed
+    @Timeout(value = 10)
+    public void testConcurrentAccessToHandsAndDecks() throws InterruptedException { 
         Boolean exeption = false;
         
          // Create hands and decks

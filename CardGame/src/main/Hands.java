@@ -65,7 +65,7 @@ public class Hands {
         String fileInput = "Player " + (this.handValue + 1) + " discards a " + cardNumber + " to deck " + deckPassTo;
         updater.writePlayerAction("player" + (this.handValue + 1), fileInput);
 
-        for(Decks deck : cardGame.deckArray){ // Searches through hands to find the one with a matching name to the current deck - e.g hand1 passes to deck1 and hand2 passes to deck2
+        for(Decks deck : cardGame.deckArray){ 
             if(this.handValue == cardGame.handArray.size() - 1){                                          
                 cardGame.deckArray.get(0).deckCardArray.add(cardToDiscard);
                 break;
